@@ -2,6 +2,27 @@
  * Create a list that holds all of your cards
  */
 
+var cardOrder = [
+
+'fa fa-diamond', 
+'fa fa-paper-plane-o', 
+'fa fa-anchor',
+'fa fa-bolt',
+'fa fa-cube',
+'fa fa-anchor',
+'fa fa-leaf',
+'fa fa-bicycle', 
+'fa fa-diamond', 
+'fa fa-paper-plane-o', 
+'fa fa-anchor',
+'fa fa-bolt',
+'fa fa-cube',
+'fa fa-anchor',
+'fa fa-leaf',
+'fa fa-bicycle' 
+
+ ];
+
 
 /*
  * Display the cards on the page
@@ -22,9 +43,48 @@ function shuffle(array) {
       array[randomIndex] = temporaryValue;
   }
 
+  $('.card').each(function(index) {
+    //console.log(index + ":" + this);
+    //console.log(array[index]);
+    $(this).append('<i class= "'+ array[index] + '"></i>');
+    });
+
   return array;
 }
 
+shuffle(cardOrder);
+
+//card Arrays
+var openCards = [],
+matchedCards = [],
+closedCards = [];
+
+
+function cardTracker(array, item) {
+  array.push(item);
+  console.log(array);
+}
+
+//event listener for clicking to add class
+$('.card').click(function() {
+  $(this).addClass('open show');
+  cardTracker(openCards, this);
+
+//interate over openCards. If two elements match, add the class match and add them to the matchedCards array
+
+});
+
+
+//TO Do
+function removeLife() {
+  //remove lis
+}
+
+
+// Additionally, you could add a class to each of the cards that is associated with each icon
+
+
+//me: build a listener to change the color of the board if you lose lives
 
 /*
  * set up the event listener for a card. If a card is clicked:
