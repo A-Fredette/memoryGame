@@ -21,16 +21,20 @@ body {
     font-family: 'Coda', cursive;
 }
 
+h1 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+}
+
+.fa {
+  transform: rotateY(.5turn);
+}
+
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-}
-
-h1 {
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 300;
 }
 
 /*
@@ -51,7 +55,8 @@ h1 {
     margin: 0 0 3em;
 }
 
-.deck .card {
+.deck .card,
+.deck .clicked {
     height: 125px;
     width: 125px;
     background: #2e3d49;
@@ -65,17 +70,21 @@ h1 {
     box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
 }
 
-.deck .card.open {
+.deck .card.open,
+.deck .clicked.open {
     transform: rotateY(0);
+    -moz-transform: rotateY(0);
     background: #02b3e4;
     cursor: default;
 }
 
-.deck .card.show {
+.deck .card.show,
+.deck .clicked.show {
     font-size: 33px;
 }
 
-.deck .card.match {
+.deck .card.match,
+.deck .clicked.match {
     cursor: default;
     background: #02ccba;
     font-size: 33px;
