@@ -116,3 +116,59 @@ h1 {
     float: right;
     cursor: pointer;
 }
+
+/*
+ * Styles for the Modal Window
+ */
+
+
+#lean_overlay {
+    position: fixed;
+    z-index:100;
+    top: 0px;
+    left: 0px;
+    height:100%;
+    width:100%;
+    background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
+    display: none;
+    padding-top: 200px;
+}
+
+.overlay-text {
+    color: white;
+    text-align: center;
+}
+
+.overlay-heading {
+    
+}
+
+.rating{
+    
+}
+
+.time {
+    
+}
+
+
+.play-again{
+    
+}
+
+.play-button {
+    color: black;
+    
+    /*! text-align: center; */
+    display: block;
+    margin: auto;
+}
+
+
+.modal-close {
+    width: 100px;
+    height: 40px;
+    background-color: red;
+    display: block;
+    margin: auto;
+}

@@ -1,4 +1,3 @@
-//All of our cards
 var cardOrder = [
 
 'fa fa-diamond', 
@@ -18,10 +17,12 @@ var cardOrder = [
 'fa fa-leaf',
 'fa fa-bicycle' 
 
- ];
-
-var openCards = [],
-move = 0;
+ ],
+openCards = [],
+move = 11,
+matchedCards = 14,
+time,
+duration;
 
 /*
  * Display the cards on the page
@@ -29,16 +30,6 @@ move = 0;
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
-
-/* TO DO
-1. Prohibit the ability to click on the same card twice
-  a. Idea is to remove the class '.card' on click and then re-add it afterward
-  -- this doesn't work, even without the class 'card', the items can still be clicked
-2. End game window
-3. Fix the reset
-4. Reset the transitions for cards that have already been clicked on
-*/
-
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -59,112 +50,162 @@ function shuffle(array) {
   return array;
 }
 
+function addModal() {
+  $('#lean_overlay').append('<h1 class= "overlay-text overlay-heading"><b>Congratulations</b></h1>')
+    .append('<h3 class= "overlay-text rating">You Won!</h3>')
+    .append('<h3 class= "overlay-text rating">Your rating: </h3>')
+    .append('<h3 class= "overlay-text time">Completion Time: '+ duration + ' Seconds</h3>')
+    .append('<h2 class= "overlay-text play-again">Play Again?</h2>');
+    $('.play-again').after('<button class= "overlay-text play-button">Play Again</button>');
+    $('.play-button').after('<button class= "modal-close">Close</button>');
+
+  $('.fa-star').each(function() {
+    $('rating').append('<li><i class="fa fa-star"></i></li>');
+  });
+}
+
+function trackScore() {
+  if (move === 1) {
+    $('.moves').html(move+" Move");
+
+  } else {
+    $('.moves').html(move+" Moves");
+  }
+
+  if (move % 10 === 0) {
+    $('.stars').children(':first').remove();
+  }
+}
+
 function match(array, item) {
-  $("."+item).parent().addClass('match');
-  console.log("match! with item: "+item);
-  array.splice(0, 2); //emptys array
-  $('.moves').html(move);
+  $("."+item).parent().addClass('match').removeClass('clicked');
+
+  array.splice(0, 2);
+
+  matchedCards = matchedCards + 2;
+
+  if (matchedCards === 16) {
+    $(document).leanModal({ top : 200, overlay : 0.9, closeButton: ".modal-close" });
+    addModal();
+  }
+
+  trackScore();
 }
 
 function noMatch(array, item) {
-  console.log("no match!");
-    $.each(array, function(index, value) {
-      console.log(value);
-      setTimeout(function() {
-        $("."+value).parent().removeClass('open show');
-        }, 2000);
-    });
-  array.splice(0, 2); //emptys array
-  $('.moves').html(move);
-  //add color + effect change for board to indicate incorrect
-}
 
-function addStar (className) {
-  //*TO DO* use some sort of fancy transition or animation
-  $(className).append('<i class= "fa fa-star"></i>');
-  console.log("class name:" +className);
+  console.log(array);
+
+  trackScore();
+
+  $.each(array, function(index, value) {
+    setTimeout(function() {
+      $('.clicked').css({'background-color': 'red'});
+      }, 450); 
+  
+    setTimeout(function() {
+      $('.'+value).parent().removeClass('open show')
+      .css({'background-color': ''});
+      array.splice(0, 2); //emptys array
+      }, 1100);
+
+    setTimeout(function() {
+      $('.'+value).parent().css({'transition': '', 'transform': ''})
+      .removeClass('clicked');
+      }, 1600);
+  });
 }
 
 function matchChecker(array, item) {
-  var Temp;
   array.push(item);
-  console.log("array length is: " + array.length + "and contains: " + array);
 
-  //run if the array only has one item in it
-  if (array.length === 2) {
+  if (array.length === 2) { //run if two .cards have been clicked on
     move++;
-    $.each(array, function(index, value) {
 
-      //match
-      if (array[0] === item) {
-        match(array, item);
+    if (array[0] === item) {
+      match(array, item);
 
-      //no match
-      } else {
-        noMatch(array, item);
-      }
-    });
-
-    //$("."+item).parent().on('click', clickAction());
-    //Temp = $("."+item).parent();
-    console.log(Temp);
-    addStar(".stars");
-    return array;
+    } else {
+      noMatch(array, item);
+    }
   } 
 }
 
 function restart() {
-  $('.card').removeChild();
+  $('.card').empty()
+  .removeClass('open show clicked match');
+
   shuffle(cardOrder);
+
+  $('.moves').html("");
+
+  time = new Date();
+
+  displayRating('.stars');
+
+  if (move > 30) {
+    $(displayClass).append('<li><i class="fa fa-star"></i></li>');
+    $(displayClass).append('<li><i class="fa fa-star"></i></li>');
+    $(displayClass).append('<li><i class="fa fa-star"></i></li>');
+    alert("Game reset!");
+
+  } else if (move > 20) {
+    $(displayClass).append('<li><i class="fa fa-star"></i></li>');
+    $(displayClass).append('<li><i class="fa fa-star"></i></li>');
+    alert("Game reset!");
+
+  } else if (move > 10 ) {
+    $(displayClass).append('<li><i class="fa fa-star"></i></li>');
+    alert("Game reset!");
+
+  } else {
+    alert("Game reset!");
+  }
+
   move = 0;
 }
 
-function gameWon() {
-  /*
-
-  When the numner of DOM elements with the class .match = 16,
-  pop up window with the announcement that your've won the game
-  and with the indicators of number of moves
-  restart();
-
-  */
-}
-
+//Click event for checking cards
 var cardFlip = function(target) {
-  $(target).addClass('open show clicked').removeClass('card')
-  .css({'transition': '500ms linear all', 'transform': 'rotateY(.5turn)'});
-  console.log(target);
+  $(target).addClass('open show clicked')
+  .css({'transition': '400ms linear all', 'transform': 'rotateY(.5turn)'});
 };
 
-function clickOn(target) {
-  setTimeout (function(target) {
-    $(target).on('click', cardFlip);
-    }, 2000);
-}
-
-
 $(document).ready(function() {
-
-  //shuffle the card
+ //shuffle the card
   shuffle(cardOrder);
 
+  //start the timer on the first click only
+  $('.deck').one('click', function() {
+    time = new Date();
+  });
+
   //event listener for clicking on a card
-
   $('.card').click(function() {
-    var thisOne = this;
-    $('.this').on('click', cardFlip(this));
-    var classClicked = $(this).children(':first').attr('class').slice(3);
-    
-    matchChecker(openCards, classClicked);
 
-    $(this).off('click', cardFlip(thisOne)); //removes the event handler
-    $(this).on('click', cardFlip(thisOne));
+    if ($(this).hasClass('clicked') === false && openCards.length < 2) {
+      $('.this').on('click', cardFlip(this));
 
+      var classClicked = $(this).children(':first').attr('class').slice(3);
+
+      matchChecker(openCards, classClicked);
+
+    } else {
+      return;
+    }
+
+    setInterval(function() {
+      duration = Math.ceil(new Date() - time) / 1000;
+      }, 1000);
 
   });
 
   //Event listener for restart
   $('.restart').click(function() {
+    restart();
+  });
+
+  $('.play-again').click(function() {
     restart();
   });
 
