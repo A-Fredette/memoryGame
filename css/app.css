@@ -26,10 +26,6 @@ h1 {
     font-weight: 300;
 }
 
-.fa {
-  transform: rotateY(.5turn);
-}
-
 .container {
     display: flex;
     justify-content: center;
@@ -72,8 +68,6 @@ h1 {
 
 .deck .card.open,
 .deck .clicked.open {
-    transform: rotateY(0);
-    -moz-transform: rotateY(0);
     background: #02b3e4;
     cursor: default;
 }
@@ -120,55 +114,20 @@ h1 {
 /*
  * Styles for the Modal Window
  */
-
-
-#lean_overlay {
-    position: fixed;
-    z-index:100;
-    top: 0px;
-    left: 0px;
-    height:100%;
-    width:100%;
-    background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
-    display: none;
-    padding-top: 200px;
+.swal-modal {
+    background: linear-gradient(160deg, #fff 30%, #02ccba 100%);
 }
 
 .overlay-text {
-    color: white;
-    text-align: center;
+    font-size: 14pt;
+    font-weight: bold;
 }
 
-.overlay-heading {
-    
+.swal-button {
+    background-color: #a67aef;
+    color: #000;
 }
 
-.rating{
-    
-}
-
-.time {
-    
-}
-
-
-.play-again{
-    
-}
-
-.play-button {
-    color: black;
-    
-    /*! text-align: center; */
-    display: block;
-    margin: auto;
-}
-
-
-.modal-close {
-    width: 100px;
-    height: 40px;
-    background-color: red;
-    display: block;
-    margin: auto;
+.swal-button:hover {
+    background-color: #02ccba ;
 }
