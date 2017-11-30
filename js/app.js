@@ -1,5 +1,4 @@
-var cardOrder = [
-
+const cardOrder = [
 'fa fa-diamond', 
 'fa fa-paper-plane-o', 
 'fa fa-btc',
@@ -16,13 +15,14 @@ var cardOrder = [
 'fa fa-btc',
 'fa fa-leaf',
 'fa fa-bicycle' 
+ ];
 
- ],
-openCards = [],
+let openCards = [],
 move = 0,
 matchedCards = 0,
 time,
-duration;
+duration,
+gameTime = 0;
 
 /*
  * Display the cards on the page
@@ -32,7 +32,7 @@ duration;
  */
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-  var currentIndex = array.length, temporaryValue, randomIndex;
+  let currentIndex = array.length, temporaryValue, randomIndex;
 
   while (currentIndex !== 0) {
     randomIndex = Math.floor(Math.random() * currentIndex);
@@ -82,8 +82,7 @@ function match(array, item) {
   $("."+item).parent().addClass('match bounce').removeClass('clicked');
 
   setTimeout(function() {
-      $('.'+value).parent().css({'transition': '', 'transform': ''})
-      .removeClass('clicked');
+      $('.'+value).parent().css({'transition': '', 'transform': ''});
       }, 1600);
 
   array.splice(0, 2);
@@ -108,7 +107,6 @@ function match(array, item) {
  *   - Update score (moves + rating)
  */
 function noMatch(array, item) {
-
   $.each(array, function(index, value) {
     setTimeout(function() {
       $('.clicked').css({'background-color': 'red'})
@@ -192,7 +190,7 @@ function restart() {
 Sweet Alert from https://sweetalert.js.org/guides/#getting-started/
 */
 function addModal() {
-  var modalDuration = duration;
+  let modalDuration = duration;
 
   swal({
     title: 'Nice Work!',
@@ -208,7 +206,6 @@ function addModal() {
   $('.fa-star').each(function() {
     $('.rating').append('<span><i class="fa fa-star"></i></span>');
   });
-
 }
 
 /*
@@ -216,10 +213,23 @@ function addModal() {
  *   - Add classes .open, .show, .clicked
  *   - Add rotate transformation with transition
  */
-var cardFlip = function(target) {
+const cardFlip = function(target) {
   $(target).addClass('open show clicked animated rotateIn')
   .css({'transition': '400ms linear all'});
 };
+
+
+function startTimer() {
+  if (matchedCards !== 16) {
+  
+    setInterval(function() {
+        gameTime = Math.ceil((new Date() - time) / 1000); 
+        $('.time-counter').html("Your Time: " + gameTime);
+        }, 1000);
+  } else {
+      return;
+  }
+}
 
 /*
  * When the document is ready, call the following:
@@ -235,21 +245,27 @@ $(document).ready(function() {
 
   shuffle(cardOrder);
 
+  startTimer();
+
   $('.deck').one('click', function() {
     time = new Date();
+
+    setTimeout(function() {
+      $('.time-counter').removeClass('hide');
+    }, 1000);
   });
 
   $('.card').click(function() {
 
-    if ($(this).hasClass('clicked') === false && openCards.length < 2) {
+    if ($(this).hasClass('clicked') === false && $(this).hasClass('match') === false && openCards.length < 2) {
       $('.this').on('click', cardFlip(this));
 
-      var classClicked = $(this).children(':first').attr('class').slice(3);
+      let classClicked = $(this).children(':first').attr('class').slice(3);
 
       matchChecker(openCards, classClicked);
 
     } else {
-      return false;
+        return false;
     }
 
     setInterval(function() {
