@@ -38,7 +38,8 @@ h1 {
  */
 
 .deck {
-    width: 660px;
+    max-width: 660px;
+    width: 90%;
     min-height: 680px;
     background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
     padding: 32px;
@@ -139,4 +140,28 @@ h1 {
 
 .swal-button:hover {
     background-color: #02ccba ;
+}
+
+/*
+ * Responsive Styling
+ */
+ @media screen and (max-width: 670px) {
+     .deck .card {
+        width: calc(100% *.219);
+      }
+}
+
+ @media screen and (max-width: 560px) {
+     .deck .card {
+        height: 110px;
+        width: calc(90% *.25);
+      }
+}
+
+
+ @media screen and (max-width: 470px) {
+     .deck .card {
+        height: 90px;
+        width: calc(90% *.24);  
+      }
 }

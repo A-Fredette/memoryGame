@@ -61,7 +61,7 @@ function trackScore() {
     $('.moves').html(move+" Moves");
   }
 
-  if (move % 10 === 0) {
+  if (move === 12 || move === 20) {
     $('.stars').children(':first').addClass('animated pulse');
 
     setTimeout(function() {
@@ -91,10 +91,6 @@ function match(array, item) {
 
   if (matchedCards === 16) {
     addModal();
-
-    setTimeout(function() {
-      restart();
-    }, 2000);
   }
 
   trackScore();
@@ -206,6 +202,12 @@ function addModal() {
   $('.fa-star').each(function() {
     $('.rating').append('<span><i class="fa fa-star"></i></span>');
   });
+
+  $('.swal-button').addClass('reset-button');
+
+  $('.reset-button').click(function(){
+    restart();
+  });
 }
 
 /*
@@ -246,6 +248,10 @@ $(document).ready(function() {
   shuffle(cardOrder);
 
   startTimer();
+
+  setTimeout(function() {
+    $('.score-panel').removeClass('animated bounce');
+    }, 2000);
 
   $('.deck').one('click', function() {
     time = new Date();
