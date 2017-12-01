@@ -5,6 +5,8 @@ This is a memory trainer designed to help increase short term memory. Match the 
 
 Players are timed and scored out of 3 stars. To get a 3-star rating, players must match all of the cards in under 12 attempts. A 2-star rating requires matching all of the cards in under 20 attempts.
 
+This game is responsive and will work on all device types.
+
 ## Installation
 Clone the GitHub repository or download the files as a .zip. No other installations are required.
 

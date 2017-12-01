@@ -19,7 +19,7 @@ const cardOrder = [
 
 let openCards = [],
 move = 0,
-matchedCards = 0,
+matchedCards = 14,
 time,
 duration,
 gameTime = 0;
@@ -188,6 +188,8 @@ Sweet Alert from https://sweetalert.js.org/guides/#getting-started/
 function addModal() {
   let modalDuration = duration;
 
+  $('.time-counter').css({'display': 'none'});
+
   swal({
     title: 'Nice Work!',
     text: 'You matched all of the cards.',
@@ -207,6 +209,7 @@ function addModal() {
 
   $('.reset-button').click(function(){
     restart();
+    $('.time-counter').css({'display': ''});
   });
 }
 
@@ -262,7 +265,6 @@ $(document).ready(function() {
   });
 
   $('.card').click(function() {
-
     if ($(this).hasClass('clicked') === false && $(this).hasClass('match') === false && openCards.length < 2) {
       $('.this').on('click', cardFlip(this));
 
@@ -280,11 +282,19 @@ $(document).ready(function() {
   });
 
   $('.restart').click(function() {
-   restart();
+    $('.moves').css({'display': 'none'});
+    $('.time-counter').css({'display': 'none'});
 
-   swal({
+    swal({
       title: "Game Reset",
       icon: "warning",
     });
+
+    $('.swal-button').click(function() {
+      restart();
+
+    $('.time-counter').css({'display': ''});
+    $('.moves').css({'display': ''});
+  });
  });
 });
