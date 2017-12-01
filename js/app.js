@@ -19,7 +19,8 @@ const cardOrder = [
 
 let openCards = [],
 move = 0,
-matchedCards = 14,
+matchedCards = 0,
+restartTracker,
 time,
 duration,
 gameTime = 0;
@@ -151,7 +152,6 @@ function matchChecker(array, item) {
  *   - Reset move, matchedCards, openCards and time counters
  */
 function restart() {
-  console.log(matchedCards);
   matchedCards = 0;
 
   $('.card').empty()
@@ -174,7 +174,10 @@ function restart() {
     $('.stars').append('<li><i class="fa fa-star"></i></li>');
   }
 
+  $('.time-counter').css({'display': 'none'});
+
   move = 0;
+  restartTracker = 1;
   time = new Date();
   openCards.splice(0, 2);
 }
@@ -209,7 +212,6 @@ function addModal() {
 
   $('.reset-button').click(function(){
     restart();
-    $('.time-counter').css({'display': ''});
   });
 }
 
@@ -265,6 +267,16 @@ $(document).ready(function() {
   });
 
   $('.card').click(function() {
+    if (restartTracker === 1) {
+      time = new Date;
+
+      setInterval(function() {
+        $('.time-counter').css({'display': ''});
+        }, 1000);
+
+      restartTracker = 0;
+    }
+
     if ($(this).hasClass('clicked') === false && $(this).hasClass('match') === false && openCards.length < 2) {
       $('.this').on('click', cardFlip(this));
 
@@ -293,7 +305,6 @@ $(document).ready(function() {
     $('.swal-button').click(function() {
       restart();
 
-    $('.time-counter').css({'display': ''});
     $('.moves').css({'display': ''});
   });
  });

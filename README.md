@@ -10,6 +10,8 @@ This game is responsive and will work on all device types.
 ## Installation
 Clone the GitHub repository or download the files as a .zip. No other installations are required.
 
+To load the game, unzip the files or open the file direcotry and open index.html in your web browser.
+
 ## Contributions
 Contributions to this game are welcome.
 
