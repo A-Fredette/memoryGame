@@ -20,11 +20,10 @@ const cardOrder = [
 let openCards = [],
 move = 0,
 matchedCards = 0,
-restartTracker,
+restartTracker = 0,
 time,
 duration,
 gameTime = 0;
-
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -79,6 +78,7 @@ function trackScore() {
  *   - Update score (moves + rating)
  *   - Animation courtesy of aninimate.css: https://daneden.github.io/animate.css/
  */ 
+ 
 function match(array, item) {
   $("."+item).parent().addClass('match bounce').removeClass('clicked');
 
@@ -152,6 +152,7 @@ function matchChecker(array, item) {
  *   - Reset move, matchedCards, openCards and time counters
  */
 function restart() {
+
   matchedCards = 0;
 
   $('.card').empty()
@@ -161,20 +162,14 @@ function restart() {
 
   $('.moves').html("");
 
-  if (move > 30) {
-    $('.stars').append('<li><i class="fa fa-star"></i></li>');
-    $('.stars').append('<li><i class="fa fa-star"></i></li>');
-    $('.stars').append('<li><i class="fa fa-star"></i></li>');
-
-  } else if (move > 20) {
+  if (move >= 20) {
     $('.stars').append('<li><i class="fa fa-star"></i></li>');
     $('.stars').append('<li><i class="fa fa-star"></i></li>');
 
-  } else if (move > 10 ) {
+  } else if (move >= 12) {
     $('.stars').append('<li><i class="fa fa-star"></i></li>');
+
   }
-
-  $('.time-counter').css({'display': 'none'});
 
   move = 0;
   restartTracker = 1;
@@ -225,17 +220,15 @@ const cardFlip = function(target) {
   .css({'transition': '400ms linear all'});
 };
 
-
+/*
+ * Create a new date and round up to be used in time display
+ * Wrie time HTML
+ */
 function startTimer() {
-  if (matchedCards !== 16) {
-  
-    setInterval(function() {
-        gameTime = Math.ceil((new Date() - time) / 1000); 
-        $('.time-counter').html("Your Time: " + gameTime);
-        }, 1000);
-  } else {
-      return;
-  }
+  setInterval(function() {
+    gameTime = Math.ceil((new Date() - time) / 1000); 
+    $('.time-counter').html("Your Time: " + gameTime);
+    }, 1000);       
 }
 
 /*
@@ -260,7 +253,6 @@ $(document).ready(function() {
 
   $('.deck').one('click', function() {
     time = new Date();
-
     setTimeout(function() {
       $('.time-counter').removeClass('hide');
     }, 1000);
@@ -270,8 +262,8 @@ $(document).ready(function() {
     if (restartTracker === 1) {
       time = new Date;
 
-      setInterval(function() {
-        $('.time-counter').css({'display': ''});
+      setTimeout(function() {
+        $('.time-counter').removeClass('hide');
         }, 1000);
 
       restartTracker = 0;
@@ -285,7 +277,7 @@ $(document).ready(function() {
       matchChecker(openCards, classClicked);
 
     } else {
-        return false;
+      return false;
     }
 
     setInterval(function() {
@@ -294,8 +286,8 @@ $(document).ready(function() {
   });
 
   $('.restart').click(function() {
+    $('.time-counter').addClass('hide');
     $('.moves').css({'display': 'none'});
-    $('.time-counter').css({'display': 'none'});
 
     swal({
       title: "Game Reset",
