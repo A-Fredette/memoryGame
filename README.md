@@ -1,6 +1,6 @@
 # Memory Trainer
 
-![Memory Game Image](img/gmemory-trainer.png)
+![Memory Game Image](img/memory-trainer.png)
 
 ## Summary
 This is a memory trainer designed to help increase short term memory. Match the symbol underneath each card with its pairs. Click on the card to reveal its symbol.
