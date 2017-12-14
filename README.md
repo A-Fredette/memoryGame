@@ -14,6 +14,8 @@ Clone the GitHub repository or download the files as a .zip. No other installati
 
 To load the game, unzip the files or open the file direcotry and open index.html in your web browser.
 
+You can also play the game without installing it [here.](https://a-fredette.github.io/memoryGame/)
+
 ## Contributions
 Contributions to this game are welcome.
 
